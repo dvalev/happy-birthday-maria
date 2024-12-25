@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Загадка "Твоят подарък"</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url(birhtday-guess.jpg) no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        /* .context-box {
+            background-color: transparent;
+            color: #ff449b;
+            font-size: 105%;
+            font-weight: bold;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 0 auto 10px;
+            /* Центрирано и отстояние отдолу */
+        /*  max-width: 400px;
+            text-align: center;
+            /*text-shadow: rgb(0, 255, 42) 1px 0 5px; */
+        /* text-shadow: 1px 1px 2px pink;
+            box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.3);
+            position: relative; 
+        } */
+
+        .input-box {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            width: 300px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #ff449b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #ff449b;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(1);
+        }
+
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup-content {
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .close-popup {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .close-popup:hover {
+            background-color: #ff8888;
+        }
+
+        .joker-button {
+            display: none;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #449bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .joker-button:hover {
+            background-color: #88bfff;
+        }
+
+        /*  .falling-text {
+            position: fixed;
+            top: -10%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: rgb(230, 39, 150);
+            text-shadow: 2px 2px 5px rgb(180, 241, 123);
+            animation: fall 100s linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                top: -10%;
+                opacity: 1;
+            }
+
+            80% {
+                opacity: 1;
+            }
+
+            100% {
+                top: 110%;
+                opacity: 0;
+            } 
+        } */
+        .rising-text {
+            position: fixed;
+            bottom: -10%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: rgb(247, 19, 133);
+            text-shadow: 2px 2px 5px rgb(228, 160, 13);
+            animation: rise 80s linear forwards;
+        }
+
+        @keyframes rise {
+            0% {
+                bottom: -10%;
+                opacity: 1;
+            }
+
+            80% {
+                opacity: 1;
+            }
+
+            100% {
+                bottom: 110%;
+                opacity: 0;
+            }
+        }
+
+        .fireworks {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: yellow;
+            border-radius: 50%;
+            animation: explode 50s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
+    <script>
+        let incorrectAttempts = 0;
+
+        function checkAnswer() {
+            const answer = document.getElementById('answer').value;
+            const popup = document.getElementById('popup');
+            const popupText = document.getElementById('popup-text');
+            const popupButton = document.querySelector('.close-popup');
+
+            if (answer.includes("Слушалки") || answer.includes("слушалки")) {
+                popupText.innerHTML = `Браво, верен отговор!`;
+                popupButton.textContent = "Финал";
+                popupButton.onclick = showFinalPage;
+                popup.style.display = "flex";
+            } else {
+                incorrectAttempts++;
+                if (incorrectAttempts >= 3) {
+                    document.getElementById('joker-button').style.display = "block";
+                }
+                popupText.textContent = "Грешен отговор! Опитай отново!";
+                popupButton.textContent = "Затвори";
+                popupButton.onclick = closePopup;
+                popup.style.display = "flex";
+            }
+        }
+
+        function showJoker() {
+            const popup = document.getElementById('popup');
+            const popupText = document.getElementById('popup-text');
+
+            popupText.innerHTML = `За да не вдигаш шум, докато гледаш Тик-Ток, какво трябва да сложиш? 😉`;
+            popup.style.display = "flex";
+        }
+
+        function showFinalPage() {
+            document.body.innerHTML = "";
+            const audio = new Audio("birthday-song.mp3");
+            audio.play();
+
+            const fireworksContainer = document.createElement("div");
+            fireworksContainer.className = "fireworks";
+            document.body.appendChild(fireworksContainer);
+
+            const text = document.createElement("div");
+            text.className = "rising-text";
+            //text.textContent = "Честит Рожден Ден, Любов!\nПреди всичко ти пожелавам здраве - най-ценното богатство, което да те съпътства всеки ден!\nТи си светлината, която озарява дните ми, и звездата, която ме води през нощта.\nБъди винаги така усмихната, защото разтапяш дори и най-студените моменти!\nБлагодаря ти, че си до мен, че ме вдъхновяваш с добротата си и ме караш да вярвам, че светът е по-красив, защото ти си в него.\nБъди щастлива и обгърната с любов, защото ти си не просто моята любов, а моят дом и моят свят!\nВъв всичко, което правиш — от малките ежедневни жестове до големите мечти, които преследваме заедно —\nвиждам невероятната ти душа и сърце,които обичам безкрайно!\nС теб светът е по-ярък, по-добър и пълен с безкрайни възможности!\nНека заедно продължаваме да изграждаме нашата приказка,която е по-красива от всичко, което някога съм си представял!\nВесел празник! Обичам те!💖";
+            text.innerHTML = "Честит Рожден Ден, Любов!<br><br>Преди всичко ти пожелавам здраве - най-ценното богатство, което да те съпътства всеки ден!<br><br>Ти си светлината, която озарява дните ми, и звездата, която ме води през нощта.<br><br>Бъди винаги така усмихната, защото разтапяш дори и най-студените моменти!<br><br>Благодаря ти, че си до мен, че ме вдъхновяваш с добротата си и ме караш да вярвам, че светът е по-красив, защото ти си в него.<br><br>Бъди щастлива и обгърната с любов, защото ти си не просто моята любов, а моят дом и моят свят!<br><br>Във всичко, което правиш — от малките ежедневни жестове до големите мечти, които преследваме заедно —<br>виждам невероятната ти душа и сърце, които обичам безкрайно!<br><br>С теб светът е по-ярък, по-добър и пълен с безкрайни възможности!<br><br>Нека заедно продължаваме да изграждаме нашата приказка, която е по-красива от всичко, което някога съм си представял!<br><br>Весел празник! Обичам те!💖";
+            document.body.appendChild(text);
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    createFirework(fireworksContainer);
+                }, i * 100);
+            }
+        }
+
+        function createFirework(container) {
+            const firework = document.createElement("div");
+            firework.className = "firework";
+            firework.style.left = `${Math.random() * 100}%`;
+            firework.style.top = `${Math.random() * 100}%`;
+            firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            container.appendChild(firework);
+
+            setTimeout(() => firework.remove(), 1000);
+        }
+
+        function closePopup() {
+            const popup = document.getElementById('popup');
+            popup.style.display = "none";
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- <div class="content-box">
+            Скъпа моя, обичам те! Пожелавам ти винаги да бъдеш здрава, усмихната и щастлива. Ти си моят свят! 💖
+        </div> -->
+        <h1>Загадка: <br> "Твоят подарък"</h1>
+        <p>Няма да те мъча много, така че остана последната загадка. <br> Познай какъв е твоят подарък, ако искаш да
+            го получиш! ♥</p>
+        <input id="answer" type="text" class="input-box" placeholder="...">
+        <button onclick="checkAnswer()">ПРОВЕРИ</button>
+        <button id="joker-button" class="joker-button" onclick="showJoker()">ДЖОКЕР</button>
+    </div>
+
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <p id="popup-text">Тук ще се покаже съобщението.</p>
+            <button class="close-popup" onclick="closePopup()">Затвори</button>
+        </div>
+    </div>
+</body>
+
+</html>

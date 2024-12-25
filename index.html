@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <meta name="theme-color" content="#317EFB"> 
+    <meta name="mobile-web-app-capable" content="yes"> 
+    <meta name="apple-mobile-web-app-capable" content="yes"> 
+
+    <title>Честит Рожден Ден</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url(background4.jpg) no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Adds a dark overlay */
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin: 0 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #ff8888;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(1);
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh);
+                opacity: 0.2;
+            }
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10vh;
+            font-size: 1rem;
+            color: white;
+            animation: fall linear infinite;
+            opacity: 0.8;
+        }
+
+        .snowflake:nth-child(1) {
+            left: 10%;
+            animation-duration: 6s;
+            animation-delay: 0s;
+        }
+
+        .snowflake:nth-child(2) {
+            left: 25%;
+            animation-duration: 8s;
+            animation-delay: 2s;
+        }
+
+        .snowflake:nth-child(3) {
+            left: 40%;
+            animation-duration: 5s;
+            animation-delay: 1s;
+        }
+
+        .snowflake:nth-child(4) {
+            left: 55%;
+            animation-duration: 7s;
+            animation-delay: 3s;
+        }
+
+        .snowflake:nth-child(5) {
+            left: 70%;
+            animation-duration: 9s;
+            animation-delay: 0s;
+        }
+
+        .snowflake:nth-child(6) {
+            left: 85%;
+            animation-duration: 10s;
+            animation-delay: 4s;
+        }
+
+        .snowflake:nth-child(7) {
+            left: 85%;
+            animation-duration: 10s;
+            animation-delay: 4s;
+        }
+
+        .blinking-text {
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Add some festive fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="blinking-text">ЧЕСТИТ РОЖДЕН ДЕН, ЛЮБИМА! ♥</h1>
+        <img src="maria.jpg.jpg"
+            style="max-width: 250px; margin-top: 20px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);">
+        <p style="font-size: 18px;">Пожелавам ти прекрасен ден, <br> пълен с усмивки и вълшебства! ♥ </p>
+        <p style="font-size: 12px;">
+            Имам един страхотен подарък за теб, но, за да стигнеш до него,
+            <br>ще трябва да си го заслужиш, като отговориш на няколко загадки
+            <br> свързани с нашето красиво пътешествие от както се запознахме &#128585;
+        </p>
+        <h3> Нека започваме! Ще бъде интересно! </h3>
+        <button onclick="window.location.href='page2.html'">СТАРТ!</button>
+    </div>
+
+    <div class="snowflakes">
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❄</div>
+    </div>
+
+</body>
+
+</html>
