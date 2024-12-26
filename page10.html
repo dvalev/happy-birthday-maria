@@ -164,19 +164,19 @@
         } */
         .rising-text {
             position: fixed;
-            bottom: -10%;
+            top: 100%;
             left: 50%;
             transform: translateX(-50%);
             font-size: 1.5rem;
             font-weight: bold;
             color: rgb(247, 19, 133);
             text-shadow: 2px 2px 5px rgb(228, 160, 13);
-            animation: rise 80s linear forwards;
+            animation: rise 40s linear forwards;
         }
 
         @keyframes rise {
             0% {
-                bottom: -10%;
+                top: 100%;
                 opacity: 1;
             }
 
@@ -185,7 +185,7 @@
             }
 
             100% {
-                bottom: 110%;
+                top: -100%;
                 opacity: 0;
             }
         }
