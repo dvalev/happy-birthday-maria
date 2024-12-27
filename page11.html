@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Твоят подарък</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url(birhtday-guess.jpg) no-repeat center center fixed;
+            background-size: cover;
+            color: black;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-top: 100px;
+            margin-bottom: 20px;
+            text-shadow: 8px 4px 5px rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+
+        .questions {
+            width: 100%;
+        }
+
+        .question {
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            background-color: transparent;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+            color: black;
+        }
+
+        .question p {
+            margin: 0 0 10px;
+            font-size: 1rem;
+            font-weight: bolder;
+        }
+
+        .input-box {
+            display: flex;
+            gap: 5px;
+        }
+
+        .input-box input {
+            flex: 1;
+            padding: 5px;
+            font-size: 0.9rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+        .input-box button {
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            color: #ffffff;
+            background-color: #28a745;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .input-box button:hover {
+            background-color: #28a745;
+        }
+
+        .content-box {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgb(219, 219, 219);
+            color: #f00e0eb9;
+            font-size: 1rem;
+            /* Намаляваме размера на шрифта до стандартен */
+            font-weight: bold;
+            padding: 10px 15px;
+            /* Намаляваме отстоянията */
+            border-radius: 10px;
+            margin: 0 auto 10px;
+            max-width: 300px;
+            /* Намаляваме максималната ширина */
+            text-align: center;
+            box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.3);
+            /* Намаляваме силата на сянката */
+            z-index: 1000;
+        }
+
+        .content-box h2 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            color: black;
+        }
+
+        .content-box button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #f00e0e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        .final-input-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .final-input-container input {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            width: 300px;
+            margin-bottom: 10px;
+        }
+
+        .final-input-container button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #ffffff;
+            background-color: #ff449b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .final-input-container button:hover {
+            background-color: #218838;
+        }
+
+        .rising-text {
+            position: fixed;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: rgb(247, 19, 133);
+            text-shadow: 2px 2px 5px rgb(228, 160, 13);
+            animation: rise 40s linear forwards;
+        }
+
+        @keyframes rise {
+            0% {
+                top: 100%;
+                opacity: 1;
+            }
+
+            80% {
+                opacity: 1;
+            }
+
+            100% {
+                top: -100%;
+                opacity: 0;
+            }
+        }
+
+        .fireworks {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: yellow;
+            border-radius: 50%;
+            animation: explode 50s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Познай гатанките</h1>
+
+    <div class="questions" style="display: flex; justify-content: center; gap: 20px;">
+        <div class="column" style="flex: 1; padding: 10px; max-width: 400px;">
+            <div class="question">
+                <p>1. Зелено, свежо, с вкусен дресинг,<br>в чинията носи здравословен месинг?</p>
+                <div class="input-box">
+                    <input type="text" id="answer1" placeholder="Твоят отговор">
+                    <button onclick="checkAnswer(1, 'салата')">Провери</button>
+                </div>
+            </div>
+            <div class="question">
+                <p>2. Цвете съм, красиво, ярко, <br>Разцъфтявам всяка пролет жарко?</p>
+                <div class="input-box">
+                    <input type="text" id="answer2" placeholder="Твоят отговор">
+                    <button onclick="checkAnswer(2, 'лале')">Провери</button>
+                </div>
+            </div>
+            <div class="question">
+                <p>3. Част от тялото съм, мъничка и слушаща, звуците приемам, с тях съм дружаща?</p>
+                <div class="input-box">
+                    <input type="text" id="answer3" placeholder="Твоят отговор">
+                    <button onclick="checkAnswer(3, 'ухо')">Провери</button>
+                </div>
+            </div>
+            <div class="question">
+                <p>4. Малък, зелен, в черупка стои,<br> вкусен е, щом я разчупиш ти?</p>
+                <div class="input-box">
+                    <input type="text" id="answer4" placeholder="Твоят отговор">
+                    <button onclick="checkAnswer(4, 'шамфъстък')">Провери</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="column" style="flex: 1; padding: 10px; max-width: 400px;">
+            <div class="question">
+                <p>5. Сутрин рано тя звъни, <br>денят ти с нея започва, нали?</p>
+                <div class="input-box">
+                    <input type="text" id="answer5" placeholder="Твоят отговор">
+                    <button onclick="checkAnswer(5, 'аларма')">Провери</button>
+                </div>
+            </div>
+            <div class="question">
+                <p>6. Гореща река, червено сияние, <br> от планината тече със пламнало дихание?</p>
+                <div class="input-box">
+                    <input type="text" id="answer6" placeholder="Твоят отговор">
+                    <button onclick="checkAnswer(6, 'лава')">Провери</button>
+                </div>
+            </div>
+            <div class="question">
+                <p>7. Листи в ред са подредени, <br>с думи свят необятен сътворени?</p>
+                <div class="input-box">
+                    <input type="text" id="answer7" placeholder="Твоят отговор">
+                    <button onclick="checkAnswer(7, 'книга')">Провери</button>
+                </div>
+            </div>
+            <div class="question">
+                <p>8. Къщичка от сняг изваяна, <br>в студ и мраз е топлина запазена?</p>
+                <div class="input-box">
+                    <input type="text" id="answer8" placeholder="Твоят отговор">
+                    <button onclick="checkAnswer(8, 'иглу')">Провери</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-box" id="content-box">
+        <h2 id="content-title"></h2>
+        <p id="content-message"></p>
+        <button onclick="closeContentBox()">Затвори</button>
+    </div>
+
+    <div class="content-box" id="content-box" style="display: none;">
+        <h2>Поздравления!</h2>
+        <p id="instructions">Сега напиши всяка първа буква от познатите думи, за да познаеш ФИНАЛНАТА дума и твоят
+            подарък!</p>
+        <div id="crossword" style="display: flex; justify-content: center; margin-top: 20px;">
+            <div style="display: grid; grid-template-columns: repeat(8, 30px); gap: 5px;">
+                <div
+                    style="width: 30px; height: 30px; border: 1px solid #333; text-align: center; line-height: 30px; font-size: 1.2rem;">
+                    С</div>
+                <div
+                    style="width: 30px; height: 30px; border: 1px solid #333; text-align: center; line-height: 30px; font-size: 1.2rem;">
+                    Л</div>
+                <div
+                    style="width: 30px; height: 30px; border: 1px solid #333; text-align: center; line-height: 30px; font-size: 1.2rem;">
+                    У</div>
+                <div
+                    style="width: 30px; height: 30px; border: 1px solid #333; text-align: center; line-height: 30px; font-size: 1.2rem;">
+                    Ш</div>
+                <div
+                    style="width: 30px; height: 30px; border: 1px solid #333; text-align: center; line-height: 30px; font-size: 1.2rem;">
+                    А</div>
+                <div
+                    style="width: 30px; height: 30px; border: 1px solid #333; text-align: center; line-height: 30px; font-size: 1.2rem;">
+                    Л</div>
+                <div
+                    style="width: 30px; height: 30px; border: 1px solid #333; text-align: center; line-height: 30px; font-size: 1.2rem;">
+                    К</div>
+                <div
+                    style="width: 30px; height: 30px; border: 1px solid #333; text-align: center; line-height: 30px; font-size: 1.2rem;">
+                    И</div>
+            </div>
+        </div>
+        <button onclick="showFinalMessage()"
+            style="margin-top: 20px; padding: 10px 20px; font-size: 1rem;">Провери</button>
+        <p id="final-message" style="display: none; margin-top: 20px; font-size: 1.2rem; color: green;">Поздравления!
+            Това е твоят подарък, Мише!</p>
+        <button onclick="closeContentBox()"
+            style="margin-top: 20px; padding: 10px 20px; font-size: 1rem;">Затвори</button>
+    </div>
+
+    <!-- Нов input и бутон -->
+    <div class="final-input-container">
+        <input type="text" id="finalWord" placeholder="Твоят подарък е... (финална дума)">
+        <button onclick="checkFinalWord()">ПРОВЕРИ</button>
+    </div>
+
+    <!-- Content Box -->
+    <div class="content-box" id="content-box1">
+        <h2 id="content-title"></h2>
+        <p id="content-message"></p>
+        <button onclick="closeContentBox()">Затвори</button>
+    </div>
+
+    <script>
+        let correctAnswers = 0;
+
+        function checkAnswer(questionNumber, correctWord) {
+            const input = document.getElementById(`answer${questionNumber}`);
+            const contentBox = document.getElementById('content-box');
+            const contentTitle = document.getElementById('content-title');
+            const contentMessage = document.getElementById('content-message');
+
+            if (input.value.trim().toLowerCase() === correctWord.toLowerCase()) {
+                input.style.borderColor = "green";
+                input.value = correctWord; // Оставя верния отговор в полето
+                input.disabled = true;
+                correctAnswers++;
+            } else {
+                input.style.borderColor = "red";
+                contentTitle.textContent = "Грешен отговор!";
+                contentMessage.textContent = "";
+                contentBox.style.display = "block";
+            }
+
+            if (correctAnswers === 8) {
+                contentTitle.textContent = "Поздравления!";
+                contentMessage.textContent = "Въведи всяка първа буква от познатите думи, за да получиш ФИНАЛНАТА дума и твоят подарък!";
+                contentBox.style.display = "block";
+                closeContentBox.onclick = showFinalPage;
+            }
+        }
+
+        function closeContentBox() {
+            document.getElementById('content-box').style.display = 'none';
+        }
+
+        // Код за бутона за Проверка преди FINAL page
+
+        function checkFinalWord() {
+            const finalInput = document.getElementById('finalWord');
+            const contentBox = document.getElementById('content-box');
+            const contentTitle = document.getElementById('content-title');
+            const contentMessage = document.getElementById('content-message');
+
+            if (finalInput.value.trim().toLowerCase() === 'слушалки') {
+                showFinalPage();
+            } else {
+                contentTitle.textContent = "Грешен отговор!";
+                contentMessage.textContent = "Опитайт пак.";
+                contentBox.style.display = "block";
+            }
+        }
+
+        function closeContentBox() {
+            const contentBox = document.getElementById('content-box');
+            contentBox.style.display = "none";
+        }
+
+        // Добавяне на кода за FINAL PAGE
+
+        function showFinalPage() {
+            document.body.innerHTML = "";
+            const audio = new Audio("birthday-song.mp3");
+            audio.play();
+
+            const fireworksContainer = document.createElement("div");
+            fireworksContainer.className = "fireworks";
+            document.body.appendChild(fireworksContainer);
+
+            const text = document.createElement("div");
+            text.className = "rising-text";
+            //text.textContent = "Честит Рожден Ден, Любов!\nПреди всичко ти пожелавам здраве - най-ценното богатство, което да те съпътства всеки ден!\nТи си светлината, която озарява дните ми, и звездата, която ме води през нощта.\nБъди винаги така усмихната, защото разтапяш дори и най-студените моменти!\nБлагодаря ти, че си до мен, че ме вдъхновяваш с добротата си и ме караш да вярвам, че светът е по-красив, защото ти си в него.\nБъди щастлива и обгърната с любов, защото ти си не просто моята любов, а моят дом и моят свят!\nВъв всичко, което правиш — от малките ежедневни жестове до големите мечти, които преследваме заедно —\nвиждам невероятната ти душа и сърце,които обичам безкрайно!\nС теб светът е по-ярък, по-добър и пълен с безкрайни възможности!\nНека заедно продължаваме да изграждаме нашата приказка,която е по-красива от всичко, което някога съм си представял!\nВесел празник! Обичам те!💖";
+            text.innerHTML = "Честит Рожден Ден, Любов!<br><br>Преди всичко ти пожелавам здраве - най-ценното богатство, което да те съпътства всеки ден!<br><br>Ти си светлината, която озарява дните ми, и звездата, която ме води през нощта.<br><br>Бъди винаги така усмихната, защото разтапяш дори и най-студените моменти!<br><br>Благодаря ти, че си до мен, че ме вдъхновяваш с добротата си и ме караш да вярвам, че светът е по-красив, защото ти си в него.<br><br>Бъди щастлива и обгърната с любов, защото ти си не просто моята любов, а моят дом и моят свят!<br><br>Във всичко, което правиш — от малките ежедневни жестове до големите мечти, които преследваме заедно —<br>виждам невероятната ти душа и сърце, които обичам безкрайно!<br><br>С теб светът е по-ярък, по-добър и пълен с безкрайни възможности!<br><br>Нека заедно продължаваме да изграждаме нашата приказка, която е по-красива от всичко, което някога съм си представял!<br><br>Весел празник! Обичам те!💖";
+            document.body.appendChild(text);
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    createFirework(fireworksContainer);
+                }, i * 100);
+            }
+        }
+
+        function createFirework(container) {
+            const firework = document.createElement("div");
+            firework.className = "firework";
+            firework.style.left = `${Math.random() * 100}%`;
+            firework.style.top = `${Math.random() * 100}%`;
+            firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            container.appendChild(firework);
+
+            setTimeout(() => firework.remove(), 1000);
+        }
+
+    </script>
+</body>
+
+</html>
